@@ -1,0 +1,68 @@
+<div class="container">
+    <div class="header">
+        <div class="row">
+            <!--Search employee-->
+            <div class="col-sm-8">
+                <input type="search" class="form-control custom-margin-search"
+                 placeholder="Search Text here"[(ngModel)]="searchTerm"
+                 (input)="filterEmployee()">
+
+            </div>
+            
+            <!--Add employee-->
+            <div class="col-sm-4">
+                <a [routerLink]="['/employees/add']" role="button" class="btn btn-outline-primary custom-margin-add">
+                    <i class="fa fa-user-plus fa-lg"></i>&nbsp;Add Employee</a>
+        </div>
+
+    </div>
+
+    <!--<p>Entered text is :{{searchTerm}}</p>-->
+    <!--List Employee-->
+    <table class="table table-bordered table-striped">
+        <thead>
+            <th>ID</th>
+            <th>Emp Name</th>
+            <th>Designation</th>
+            <th>Join Date</th>
+            <th>Active</th>
+            <th>Action</th>
+            
+        </thead>
+        <tbody>
+          <!--  <tr *ngFor="let employee of employeeService.employees | filter:searchTerm
+            | paginate: { itemsPerPage: 3, currentPage: page }">-->
+            <tr *ngFor="let employee of filteredEmployees
+            |paginate:{itemsPerPage:5,currentPage:page}">
+                <td>{{employee.EmployeeId}}</td>
+                <td>{{employee.EmployeeName}}</td>
+                <td>{{employee.Designation}}</td>
+                <td>{{employee.DateOfJoining}}</td>
+                <td><input type="checkbox"[checked]="employee.IsActive" disabled/></td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-info"
+                        (click)="editEmployee(employee)">
+                      
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-sm btn-outline-danger"
+                    (click)="deleteEmployee(employee.EmployeeId)">
+                        <i class="fa fa-trash"></i>
+
+                    </button>
+                    &nbsp;
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+    <!--Footer-->
+    <div class="footer">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
+    </div>
+</div>
+
+
+
